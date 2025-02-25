@@ -1,0 +1,2 @@
+# in vite .env variables need to have a prefix "VITE_" in order to be imported
+VITE_OMDB_API_KEY=key
