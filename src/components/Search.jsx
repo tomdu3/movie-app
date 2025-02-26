@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { searchMovies } from '../services/api';
 
-const SearchMovie = () => {
+const Search = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleSearch = async () => {
     try {
-      const data = await searchMovies(query);
+      const data = await searchMovies(query, currentPage);
       if (data.Response === 'True') {
         setResults(data.Search);
       } else {
@@ -18,6 +19,42 @@ const SearchMovie = () => {
     } catch (error) {
       setError('An error occurred while searching for movies.');
     }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    handleSearch();
+  };
+
+  const renderPagination = () => {
+    const { totalResults, Page, totalPages } = results;
+
+    if (!totalResults) return null;
+
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    return (
+      <div>
+        <button disabled={Page === 1} onClick={() => handlePageChange(Page - 1)}>
+          Previous
+        </button>
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            disabled={page === Page}
+          >
+            {page}
+          </button>
+        ))}
+        <button
+          disabled={Page === totalPages}
+          onClick={() => handlePageChange(Page + 1)}
+        >
+          Next
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -42,8 +79,9 @@ const SearchMovie = () => {
           ))}
         </ul>
       )}
+      {renderPagination()}
     </div>
   );
 };
 
-export default SearchMovie;
+export default Search;
