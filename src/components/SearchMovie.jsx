@@ -26,6 +26,7 @@ const SearchMovie = () => {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         placeholder="Search for a movie..."
       />
       <button onClick={handleSearch}>Search</button>
