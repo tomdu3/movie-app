@@ -1,16 +1,21 @@
-import React from 'react'
+import React from "react";
+import ReactDOM from "react-dom/client";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
-import SearchMovie from './components/SearchMovie'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Search from "./components/Search";
+import MovieDetails from "./components/MovieDetails";
 
 function App() {
   return (
-    <>
-     <h1>Tom's Movie Database</h1>
-     <SearchMovie />
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Search />} />
+        <Route path='/movie/:imdbID' element={<MovieDetails />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
