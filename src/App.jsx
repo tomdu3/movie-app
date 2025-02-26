@@ -10,6 +10,7 @@ import MovieDetails from "./components/MovieDetails";
 function App() {
   return (
     <BrowserRouter>
+      <h1>Tom's Movie Database</h1>
       <Routes>
         <Route path='/' element={<Search />} />
         <Route path='/movie/:imdbID' element={<MovieDetails />} />
