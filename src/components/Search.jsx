@@ -14,6 +14,17 @@ const Search = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (location.state?.searchState) {
+      const { query, results, currentPage, totalPages } = location.state.searchState;
+      setQuery(query);
+      setResults(results);
+      setCurrentPage(currentPage);
+      setTotalPages(totalPages);
+      setInputPage(currentPage);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     const fetchMovies = async () => {
       try {
         const data = await searchMovies(query, currentPage);
@@ -83,7 +94,7 @@ const Search = () => {
   };
 
   const handleMovieDetailsClick = (imdbID) => {
-    navigate(`/movie/${imdbID}`, { state: { goBack: location.pathname } });
+    navigate(`/movie/${imdbID}`, { state: { goBack: location.pathname, searchState: { query, results, currentPage, totalPages } } });
   };
 
   const renderResults = () => {

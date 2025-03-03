@@ -21,9 +21,10 @@ const MovieDetailsWithGoBack = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const goBack = location.state?.goBack || '/';
+  const searchState = location.state?.searchState;
 
   const handleGoBack = () => {
-    navigate(goBack);
+    navigate(goBack, { state: { searchState } });
   };
 
   return <MovieDetails goBack={handleGoBack} />;
