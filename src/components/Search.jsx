@@ -8,6 +8,7 @@ const Search = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [inputPage, setInputPage] = useState(1);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -32,30 +33,41 @@ const Search = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    setInputPage(pageNumber);
+  };
+
+  const handleInputPageChange = (event) => {
+    if (event.key === 'Enter') {
+      const newPage = parseInt(event.target.value, 10);
+      if (newPage >= 1 && newPage <= totalPages) {
+        setCurrentPage(newPage);
+        setInputPage(newPage);
+      }
+    }
   };
 
   const renderPagination = () => {
-    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-
     return (
       <div>
-        <button disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>
-          Previous
+        <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>
+          First Page
         </button>
-        {pages.map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            disabled={page === currentPage}
-          >
-            {page}
-          </button>
-        ))}
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          Next
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          Prev Page
+        </button>
+        <input
+          type="number"
+          min="1"
+          max={totalPages}
+          value={inputPage}
+          onChange={(e) => setInputPage(e.target.value)}
+          onKeyDown={handleInputPageChange}
+        />
+        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next Page
+        </button>
+        <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>
+          Last Page ({totalPages})
         </button>
       </div>
     );
