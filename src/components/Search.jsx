@@ -98,7 +98,7 @@ const Search = () => {
           disabled={currentPage === totalPages}
           className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:bg-gray-400"
         >
-          Last
+          Last ({totalPages})
         </button>
       </div>
     );

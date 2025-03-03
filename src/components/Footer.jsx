@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6 mt-8">
+    <footer className="bg-gray-800 text-white py-6">
       <div className="container mx-auto px-4">
         <div className="flex justify-center space-x-6 mb-4">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">

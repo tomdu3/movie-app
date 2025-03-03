@@ -7,17 +7,17 @@ import MovieDetails from "./components/MovieDetails";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-
 function App() {
   return (
     <BrowserRouter>
-    <Navbar />
-      <h1>Tom's Movie Database</h1>
-      <Routes>
-        <Route path="/" element={<Search />} />
-        <Route path="/movie/:imdbID" element={<MovieDetailsWithGoBack />} />
-      </Routes>
-      <Footer />
+      <div className="min-h-screen bg-gray-900 text-white">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Search />} />
+          <Route path="/movie/:imdbID" element={<MovieDetailsWithGoBack />} />
+        </Routes>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
