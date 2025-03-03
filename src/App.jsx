@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import Search from "./components/Search";
 import MovieDetails from "./components/MovieDetails";
@@ -12,11 +10,23 @@ function App() {
     <BrowserRouter>
       <h1>Tom's Movie Database</h1>
       <Routes>
-        <Route path='/' element={<Search />} />
-        <Route path='/movie/:imdbID' element={<MovieDetails />} />
+        <Route path="/" element={<Search />} />
+        <Route path="/movie/:imdbID" element={<MovieDetailsWithGoBack />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
+const MovieDetailsWithGoBack = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const goBack = location.state?.goBack || '/';
+
+  const handleGoBack = () => {
+    navigate(goBack);
+  };
+
+  return <MovieDetails goBack={handleGoBack} />;
+};
 
 export default App;

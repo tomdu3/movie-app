@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { searchMovies } from '../services/api';
 
 const Search = () => {
@@ -9,6 +9,9 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [inputPage, setInputPage] = useState(1);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -79,6 +82,10 @@ const Search = () => {
     setQuery(event.target.elements.query.value);
   };
 
+  const handleMovieDetailsClick = (imdbID) => {
+    navigate(`/movie/${imdbID}`, { state: { goBack: location.pathname } });
+  };
+
   const renderResults = () => {
     if (error) {
       return <div>{error}</div>;
@@ -92,10 +99,10 @@ const Search = () => {
       <div>
         {results.map((movie) => (
           <div key={movie.imdbID}>
-            <Link to={`/movie/${movie.imdbID}`}>
+            <button onClick={() => handleMovieDetailsClick(movie.imdbID)}>
               <img src={movie.Poster} alt={movie.Title} />
               <h3>{movie.Title}</h3>
-            </Link>
+            </button>
             <p>{movie.Year}</p>
           </div>
         ))}

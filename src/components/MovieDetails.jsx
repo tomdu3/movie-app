@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieDetails } from '../services/api';
 
-const MovieDetails = () => {
+const MovieDetails = ({ goBack }) => {
   const { imdbID } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
@@ -36,6 +36,7 @@ const MovieDetails = () => {
 
   return (
     <div>
+      <button onClick={goBack}>Go Back</button>
       <h2>{Title}</h2>
       <p>Year: {Year}</p>
       <img src={Poster} alt={Title} />
