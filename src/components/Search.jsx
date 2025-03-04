@@ -195,7 +195,7 @@ const Search = () => {
           <select
             value={typeFilter}
             onChange={handleTypeFilterChange}
-            className="mr-2 px-4 py-2 bg-gray-800 text-white rounded focus:outline-none"
+            className="text-sm md:text-base mr-2 px-4 py-2 bg-gray-800 text-white rounded-xl focus:outline-none"
           >
             <option value="all">All Types</option>
             <option value="movie">Movie</option>
@@ -207,11 +207,11 @@ const Search = () => {
               type="text"
               name="query"
               placeholder="Search movies."
-              className="w-full sm:w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
+              className="text-sm md:text-base w-full sm:w-64 px-4 py-2 rounded-l-xl bg-gray-800 text-white focus:outline-none"
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 rounded-r-lg hover:bg-blue-700"
+              className="text-sm md:text-base px-4 py-2 bg-blue-600 rounded-r-xl hover:bg-blue-700"
             >
               Search
             </button>
@@ -219,7 +219,7 @@ const Search = () => {
           {query && (
             <button
               onClick={handleClearSearch}
-              className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 bg-gray-600 rounded hover:bg-gray-500"
+              className="mt-2 text-sm md:text-base sm:mt-0 sm:ml-2 px-3 md:px-4 py-2 bg-gray-600 rounded-xl hover:bg-gray-500"
             >Clear</button>
           )}
         </form>

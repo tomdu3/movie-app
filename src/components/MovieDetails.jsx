@@ -35,11 +35,11 @@ const MovieDetails = ({ goBack }) => {
   const { Title, Type, Year, Poster, Genre, Plot, Actors, Ratings } = movie;
 
   return (
-    <div className="bg-gray-900 text-white p-8">
+    <div className="bg-gray-900 text-white px-6 py-3 md:p-8">
       <div className="container mx-auto">
         <button
           onClick={goBack}
-          className="mb-6 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
+          className="text-sm md:text-base mb-3 md:mb-6 px-2 md:px-4 py-1 md:py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
         >
           Go Back
         </button>
