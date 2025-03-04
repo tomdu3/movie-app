@@ -51,13 +51,13 @@ const MovieDetails = ({ goBack }) => {
               className="w-full md:w-1/3 h-auto object-cover rounded-lg"
             />
             <div className="md:ml-6 mt-4 md:mt-0">
-              <h2 className="text-3xl font-bold">{Title}</h2>
+              <h2 className="text-xl text-center md:text-3xl font-bold ">{Title}</h2>
               <p className="text-gray-400 mt-2 capitalize">Type: <span className="font-bold">{Type}</span></p>
               <p className="text-gray-400 mt-2">Year: {Year}</p>
               <p className="text-gray-400 mt-2">Genre: {Genre}</p>
               <p className="text-gray-400 mt-2">Actors: {Actors}</p>
-              <p className="text-gray-400 mt-4">{Plot}</p>
-              <h3 className="text-2xl font-bold mt-6">Ratings:</h3>
+              <p className="italic text-white-400 mt-4">{Plot}</p>
+              <h3 className="text-base md:text-2xl font-bold mt-6">Ratings:</h3>
               <ul className="mt-2">
                 {Ratings.map((rating, index) => (
                   <li key={index} className="text-gray-400">

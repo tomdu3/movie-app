@@ -178,7 +178,7 @@ const Search = () => {
                 <h3 className="text-white font-semibold">{movie.Title}</h3>
                 <p className="text-gray-400"><span className="font-semibold capitalize">{movie.Type}</span>: {movie.Year}</p>
                 {movie.Plot && (
-                  <p className="text-gray-400 mt-2">{movie.Plot.length > 100 ? `${movie.Plot.substring(0, 100)}...` : movie.Plot}</p>
+                  <p className="italic text-white-400 mt-2">{movie.Plot.length > 100 ? `${movie.Plot.substring(0, 100)}...` : movie.Plot}</p>
                 )}
               </div>
             </button>
