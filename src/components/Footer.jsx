@@ -14,9 +14,12 @@ const Footer = () => {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-instagram text-2xl hover:text-gray-400"></i>
           </a>
+          <a href="https://github.com/tomdu3" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-github text-2xl hover:text-gray-400"></i>
+          </a>
         </div>
         <div className="text-center text-gray-400">
-          &copy; {new Date().getFullYear()} Tom's Movie DB. All rights reserved.
+          &copy; {new Date().getFullYear()} TomDcode. All rights reserved.
         </div>
       </div>
     </footer>
