@@ -112,6 +112,14 @@ const Search = () => {
     setQuery(event.target.elements.query.value);
   };
 
+  const handleClearSearch = () => {
+    setQuery('');
+    setResults([]);
+    setError(null);
+    setCurrentPage(1);
+    document.querySelector('input[name="query"]').value = '';
+  };
+
   const handleMovieDetailsClick = (imdbID) => {
     navigate(`/movie/${imdbID}`, { state: { goBack: location.pathname, searchState: { query, results, currentPage, totalPages } } });
   };
@@ -145,19 +153,27 @@ const Search = () => {
   return (
     <div className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
-        <form onSubmit={handleSearch} className="flex justify-center mb-8">
-          <input
-            type="text"
-            name="query"
-            placeholder="Search movies..."
-            className="w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-600 rounded-r-lg hover:bg-blue-700"
-          >
-            Search
-          </button>
+        <form onSubmit={handleSearch} className="flex justify-center mb-8 items-center">
+          <div className="flex">
+            <input
+              type="text"
+              name="query"
+              placeholder="Search movies..."
+              className="w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 rounded-r-lg hover:bg-blue-700"
+            >
+              Search
+            </button>
+          </div>
+          {query && (
+            <button
+              onClick={handleClearSearch}
+              className="ml-2 px-4 py-2 bg-gray-600 rounded hover:bg-gray-500"
+            >Clear</button>
+          )}
         </form>
         {renderResults()}
         {renderPagination()} {/* Pagination will only render if there are results */}
