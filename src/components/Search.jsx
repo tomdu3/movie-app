@@ -18,12 +18,13 @@ const Search = () => {
   useEffect(() => {
     if (location.state?.searchState) {
       const { query, results, currentPage, totalPages } = location.state.searchState;
-      setQuery(query);
+      setQuery(query);      
       setResults(results);
       setCurrentPage(currentPage);
       setTotalPages(totalPages);
       setInputPage(currentPage);
-    }
+      document.querySelector('input[name="query"]').value = query;
+    } 
   }, [location.state]);
 
   useEffect(() => {
