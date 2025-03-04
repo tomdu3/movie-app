@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://www.omdbapi.com';
+const API_BASE_URL = 'https://www.omdbapi.com';
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
 export const searchMovies = async (query, page = 1, type = '') => {
