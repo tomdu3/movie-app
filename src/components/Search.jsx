@@ -9,6 +9,7 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [inputPage, setInputPage] = useState(1);
+  const [typeFilter, setTypeFilter] = useState('all');
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,10 +28,11 @@ const Search = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const data = await searchMovies(query, currentPage);
+        const data = await searchMovies(query, currentPage, typeFilter === 'all' ? '' : typeFilter);
         if (data.Response === 'True') {
           setResults(data.Search);
           setTotalPages(Math.ceil(data.totalResults / 10));
+          setError(null);
         } else {
           setResults([]);
           setError(data.Error);
@@ -42,8 +44,11 @@ const Search = () => {
 
     if (query) {
       fetchMovies();
+    } else {
+      setResults([]);
+      setError(null);
     }
-  }, [query, currentPage]);
+  }, [query, currentPage, typeFilter]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -61,7 +66,7 @@ const Search = () => {
   };
 
   const renderPagination = () => {
-    if (results.length === 0) return null; // Don't show pagination if there are no results
+    if (results.length === 0) return null;
 
     return (
       <div className="flex justify-center items-center space-x-2 my-6">
@@ -112,11 +117,17 @@ const Search = () => {
     setQuery(event.target.elements.query.value);
   };
 
+  const handleTypeFilterChange = (event) => {
+    setTypeFilter(event.target.value);
+    setCurrentPage(1);
+  };
+
   const handleClearSearch = () => {
     setQuery('');
     setResults([]);
     setError(null);
     setCurrentPage(1);
+    setTypeFilter('all');
     document.querySelector('input[name="query"]').value = '';
   };
 
@@ -154,11 +165,21 @@ const Search = () => {
     <div className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <form onSubmit={handleSearch} className="flex justify-center mb-8 items-center">
+          <select
+            value={typeFilter}
+            onChange={handleTypeFilterChange}
+            className="mr-2 px-4 py-2 bg-gray-800 text-white rounded focus:outline-none"
+          >
+            <option value="all">All Types</option>
+            <option value="movie">Movie</option>
+            <option value="series">Series</option>
+            <option value="episode">Episode</option>
+          </select>
           <div className="flex">
             <input
               type="text"
               name="query"
-              placeholder="Search movies..."
+              placeholder="Search movies."
               className="w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
             />
             <button
@@ -176,7 +197,7 @@ const Search = () => {
           )}
         </form>
         {renderResults()}
-        {renderPagination()} {/* Pagination will only render if there are results */}
+        {renderPagination()}
       </div>
     </div>
   );
