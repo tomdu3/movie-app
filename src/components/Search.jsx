@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { searchMovies } from '../services/api';
+import { searchMovies, getMovieDetails } from '../services/api';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -10,6 +10,7 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [inputPage, setInputPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState('all');
+  const [moviesWithPlot, setMoviesWithPlot] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,6 +50,29 @@ const Search = () => {
       setError(null);
     }
   }, [query, currentPage, typeFilter]);
+
+  useEffect(() => {
+    const fetchMoviesWithPlot = async () => {
+      const moviesWithPlot = [];
+      for (const movie of results) {
+        try {
+          const movieDetails = await getMovieDetails(movie.imdbID);
+          if (movieDetails.Response === 'True') {
+            moviesWithPlot.push({ ...movie, Plot: movieDetails.Plot });
+          }
+        } catch (error) {
+          console.error(`Error fetching details for movie ${movie.imdbID}:`, error);
+        }
+      }
+      setMoviesWithPlot(moviesWithPlot);
+    };
+
+    if (results.length > 0) {
+      fetchMoviesWithPlot();
+    } else {
+      setMoviesWithPlot([]);
+    }
+  }, [results]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -146,13 +170,16 @@ const Search = () => {
 
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
-        {results.map((movie) => (
-          <div key={movie.imdbID} className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-            <button onClick={() => handleMovieDetailsClick(movie.imdbID)} className="w-full text-left">
-              <img src={movie.Poster} alt={movie.Title} className="w-full h-64 object-cover" />
+        {moviesWithPlot.map((movie) => (
+          <div key={movie.imdbID} className="flex bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:bg-gray-700 cursor-pointer">
+            <button onClick={() => handleMovieDetailsClick(movie.imdbID)} className="w-full text-center">
+              <img src={movie.Poster} alt={movie.Title} className="w-full h-32 object-contain" />
               <div className="p-4">
                 <h3 className="text-white font-semibold">{movie.Title}</h3>
-                <p className="text-gray-400">{movie.Year}</p>
+                <p className="text-gray-400"><span className="font-semibold capitalize">{movie.Type}</span>: {movie.Year}</p>
+                {movie.Plot && (
+                  <p className="text-gray-400 mt-2">{movie.Plot.length > 100 ? `${movie.Plot.substring(0, 100)}...` : movie.Plot}</p>
+                )}
               </div>
             </button>
           </div>
@@ -164,7 +191,7 @@ const Search = () => {
   return (
     <div className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
-        <form onSubmit={handleSearch} className="flex justify-center mb-8 items-center">
+        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row justify-center mb-8 items-center">
           <select
             value={typeFilter}
             onChange={handleTypeFilterChange}
@@ -175,12 +202,12 @@ const Search = () => {
             <option value="series">Series</option>
             <option value="episode">Episode</option>
           </select>
-          <div className="flex">
+          <div className="flex mt-2 sm:mt-0">
             <input
               type="text"
               name="query"
               placeholder="Search movies."
-              className="w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
+              className="w-full sm:w-64 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none"
             />
             <button
               type="submit"
@@ -192,7 +219,7 @@ const Search = () => {
           {query && (
             <button
               onClick={handleClearSearch}
-              className="ml-2 px-4 py-2 bg-gray-600 rounded hover:bg-gray-500"
+              className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 bg-gray-600 rounded hover:bg-gray-500"
             >Clear</button>
           )}
         </form>
