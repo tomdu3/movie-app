@@ -61,6 +61,8 @@ const Search = () => {
   };
 
   const renderPagination = () => {
+    if (results.length === 0) return null; // Don't show pagination if there are no results
+
     return (
       <div className="flex justify-center items-center space-x-2 my-6">
         <button
@@ -141,7 +143,7 @@ const Search = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         <form onSubmit={handleSearch} className="flex justify-center mb-8">
           <input
@@ -158,7 +160,7 @@ const Search = () => {
           </button>
         </form>
         {renderResults()}
-        {renderPagination()}
+        {renderPagination()} {/* Pagination will only render if there are results */}
       </div>
     </div>
   );

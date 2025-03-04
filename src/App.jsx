@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import Search from "./components/Search";
@@ -10,12 +9,14 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-900 text-white">
+      <div className="min-h-screen flex flex-col bg-gray-900 text-white">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Search />} />
-          <Route path="/movie/:imdbID" element={<MovieDetailsWithGoBack />} />
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Search />} />
+            <Route path="/movie/:imdbID" element={<MovieDetailsWithGoBack />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </BrowserRouter>
