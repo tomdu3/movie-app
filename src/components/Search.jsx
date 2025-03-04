@@ -139,6 +139,7 @@ const Search = () => {
   const handleSearch = async (event) => {
     event.preventDefault();
     setCurrentPage(1);
+    setInputPage(1);
     setQuery(event.target.elements.query.value);
   };
 
