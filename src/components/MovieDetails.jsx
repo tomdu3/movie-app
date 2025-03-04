@@ -32,10 +32,10 @@ const MovieDetails = ({ goBack }) => {
     return <div className="text-gray-400 text-center p-4">Loading...</div>;
   }
 
-  const { Title, Year, Poster, Genre, Plot, Actors, Ratings } = movie;
+  const { Title, Type, Year, Poster, Genre, Plot, Actors, Ratings } = movie;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="bg-gray-900 text-white p-8">
       <div className="container mx-auto">
         <button
           onClick={goBack}
@@ -52,6 +52,7 @@ const MovieDetails = ({ goBack }) => {
             />
             <div className="md:ml-6 mt-4 md:mt-0">
               <h2 className="text-3xl font-bold">{Title}</h2>
+              <p className="text-gray-400 mt-2 capitalize">Type: <span className="font-bold">{Type}</span></p>
               <p className="text-gray-400 mt-2">Year: {Year}</p>
               <p className="text-gray-400 mt-2">Genre: {Genre}</p>
               <p className="text-gray-400 mt-2">Actors: {Actors}</p>
