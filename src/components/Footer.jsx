@@ -19,7 +19,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="text-center text-gray-400">
-          &copy; {new Date().getFullYear()} TomDcode. All rights reserved.
+          &copy; {new Date().getFullYear()} TomDcoding. All rights reserved.
         </div>
       </div>
     </footer>
