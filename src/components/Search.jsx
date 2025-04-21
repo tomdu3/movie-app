@@ -89,7 +89,7 @@ const Search = () => {
         searchInputRef.current.value = query;
       }
     } 
-  }, [location.state]);
+  }, ['']);
 
   // Search movies effect
   useEffect(() => {
