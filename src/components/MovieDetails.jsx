@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieDetails } from '../services/api';
+import isImageValid from '../helpers/imageUrlCheck'; // Import the image validation function
 
 const MovieDetails = ({ goBack }) => {
   const { imdbID } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
+  const [isValidPoster, setIsValidPoster] = useState(false);
+  const [posterURL, setPosterURL] = useState('');
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -13,6 +16,7 @@ const MovieDetails = ({ goBack }) => {
         const data = await getMovieDetails(imdbID);
         if (data.Response === 'True') {
           setMovie(data);
+          setPosterURL(data.Poster); // Set initial poster URL
         } else {
           setError(data.Error);
         }
@@ -24,6 +28,24 @@ const MovieDetails = ({ goBack }) => {
     fetchMovieDetails();
   }, [imdbID]);
 
+  useEffect(() => {
+    const checkPoster = async () => {
+      if (movie && movie.Poster !== 'N/A') {
+        const valid = await isImageValid(movie.Poster);
+        setIsValidPoster(valid);
+        if (!valid) {
+          setPosterURL('https://placehold.co/300x450?text=No+Poster'); // Fallback URL
+        } else {
+          setPosterURL(movie.Poster); // Use the valid poster URL
+        }
+      } else {
+        setPosterURL('https://placehold.co/300x450?text=No+Poster'); // Use fallback if it's 'N/A'
+      }
+    };
+
+    checkPoster();
+  }, [movie]); // Check the poster when the movie data changes
+
   if (error) {
     return <div className="text-red-500 text-center p-4">Error: {error}</div>;
   }
@@ -32,7 +54,7 @@ const MovieDetails = ({ goBack }) => {
     return <div className="text-gray-400 text-center p-4">Loading...</div>;
   }
 
-  const { Title, Type, Year, Poster, Genre, Plot, Actors, Ratings } = movie;
+  const { Title, Type, Year, Genre, Plot, Actors, Ratings } = movie;
 
   return (
     <div className="bg-gray-900 text-white px-6 py-3 md:p-8">
@@ -46,7 +68,7 @@ const MovieDetails = ({ goBack }) => {
         <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden p-6">
           <div className="flex flex-col md:flex-row">
             <img
-              src={Poster}
+              src={posterURL}
               alt={Title}
               className="w-full md:w-1/3 h-auto object-cover rounded-lg"
             />
