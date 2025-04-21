@@ -25,7 +25,7 @@ const Search = () => {
       setInputPage(currentPage);
       document.querySelector('input[name="query"]').value = query;
     } 
-  }, [location.state]);
+  }, ['']);
 
   useEffect(() => {
     const fetchMovies = async () => {
